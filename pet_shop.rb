@@ -19,20 +19,21 @@ def increase_pets_sold(pet_shop, no_of_pets)
 end
 
 def stock_count(pet_shop)
-  count = 0
-  for pet in pet_shop[:pets]
-    count += 1
-  end
-  return count
+  return pet_shop[:pets].count
 end
 
 ##############
 
 # ALTERNATIVE METHOD
-# Using built-in Ruby function .count
+# From scratch,
+# rather than using built-in Ruby function .count
 
 # def stock_count(pet_shop)
-#   return pet_shop[:pets].count
+#   count = 0
+#   for pet in pet_shop[:pets]
+#     count += 1
+#   end
+#   return count
 # end
 
 ##############
@@ -54,21 +55,21 @@ def find_pet_by_name(pet_shop, name)
 end
 
 def remove_pet_by_name(pet_shop, name)
-  for pet in pet_shop[:pets]
-    if pet[:name] == name
-      pet_shop[:pets].delete(pet)
-    end
-  end
+  pet_to_remove = find_pet_by_name(pet_shop, name)
+  pet_shop[:pets].delete(pet_to_remove)
 end
 
 ##############
 
 # ALTERNATIVE METHOD
-# Using previously defined find_pet_by_name function
-
+# NOT using previously defined find_pet_by_name function
+#
 # def remove_pet_by_name(pet_shop, name)
-#   pet_to_remove = find_pet_by_name(pet_shop, name)
-#   pet_shop[:pets].delete(pet_to_remove)
+#   for pet in pet_shop[:pets]
+#     if pet[:name] == name
+#       pet_shop[:pets].delete(pet)
+#     end
+#   end
 # end
 
 ##############
