@@ -1,3 +1,69 @@
+@customers = [
+  {
+    name: "Alice",
+    pets: [],
+    cash: 1000
+  },
+  {
+    name: "Bob",
+    pets: [],
+    cash: 50
+  }
+]
+
+@new_pet = {
+  name: "Bors the Younger",
+  pet_type: :cat,
+  breed: "Cornish Rex",
+  price: 100
+}
+
+@pet_shop = {
+  pets: [
+    {
+      name: "Sir Percy",
+      pet_type: :cat,
+      breed: "British Shorthair",
+      price: 500
+    },
+    {
+      name: "King Bagdemagus",
+      pet_type: :cat,
+      breed: "British Shorthair",
+      price: 500
+    },
+    {
+      name: "Sir Lancelot",
+      pet_type: :dog,
+      breed: "Pomsky",
+      price: 1000,
+    },
+    {
+      name: "Arthur",
+      pet_type: :dog,
+      breed: "Husky",
+      price: 900,
+    },
+    {
+      name: "Tristan",
+      pet_type: :dog,
+      breed: "Basset Hound",
+      price: 800,
+    },
+    {
+      name: "Merlin",
+      pet_type: :cat,
+      breed: "Egyptian Mau",
+      price: 1500,
+    }
+  ],
+  admin: {
+    total_cash: 1000,
+    pets_sold: 0,
+  },
+  name: "Camelot of Pets"
+}
+
 def pet_shop_name(pet_shop)
   return pet_shop[:name]
 end
@@ -123,16 +189,21 @@ end
 
 def sell_pet_to_customer(pet_shop, pet, customer)
   if pet == nil
-    "No pet found. Please define a valid pet." # E.g., user tries to find_pet_by_name and it returns nil, then tries to run sell_pet_to_customer
+    "No pet found. Please define a valid pet."
   elsif find_pet_by_name(pet_shop, pet[:name]) == nil
-    "Pet is not found in this pet shop. Either no valid pet defined or pet is in a different pet shop." # E.g., user tries to use a pet not in the pet_shop hash (e.g., @new_pet)
+    "Pet is not found in this pet shop. Either no valid pet defined or pet is in a different pet shop."
   elsif customer_can_afford_pet(customer, pet) == false
     "Customer cannot afford pet."
   else
     add_pet_to_customer(customer, pet)
-    remove_pet_by_name(pet_shop, pet[:name]) # Not used in test, but if pet is sold it should no longer be in the shop
+    remove_pet_by_name(pet_shop, pet[:name])
     remove_customer_cash(customer, pet[:price])
     add_or_remove_cash(pet_shop, pet[:price])
     increase_pets_sold(pet_shop, 1)
   end
 end
+
+pet = find_pet_by_name(@pet_shop, "Dave")
+customer = @customers[1]
+result = sell_pet_to_customer(@pet_shop, @new_pet, customer)
+p result
