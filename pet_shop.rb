@@ -22,6 +22,8 @@ def stock_count(pet_shop)
   return pet_shop[:pets].count
 end
 
+# can also use .length on an array
+
 ##############
 
 # ALTERNATIVE METHOD
@@ -53,6 +55,19 @@ def find_pet_by_name(pet_shop, name)
   end
   return pet_by_name
 end
+
+##############
+
+# REFACTORED
+
+# def find_pet_by_name(pet_shop, name)
+#   for pet in pet_shop[:pets]
+#     return pet if pet[:name] == name
+#   end
+#   return nil
+# end
+
+##############
 
 def remove_pet_by_name(pet_shop, name)
   pet_to_remove = find_pet_by_name(pet_shop, name)
@@ -104,6 +119,15 @@ end
 
 ###############
 
+# ALTERNATIVE METHOD
+
+# def customer_can_afford_pet(customer, pet)
+#   return true if customer_cash(customer) >= pet[:price]
+#   return false
+# end
+
+###############
+
 # SELL_PET_TO_CUSTOMER - STEPS NEEDED
 
 # find pet
@@ -123,16 +147,39 @@ end
 
 def sell_pet_to_customer(pet_shop, pet, customer)
   if pet == nil
-    "No pet found. Please define a valid pet." # E.g., user tries to find_pet_by_name and it returns nil, then tries to run sell_pet_to_customer
+    "No pet found. Please define a valid pet."
+    # E.g., user tries to find_pet_by_name and it returns nil, then tries to run sell_pet_to_customer
   elsif find_pet_by_name(pet_shop, pet[:name]) == nil
-    "Pet is not found in this pet shop. Either no valid pet defined or pet is in a different pet shop." # E.g., user tries to use a pet not in the pet_shop hash (e.g., @new_pet)
+    "Pet is not found in this pet shop. Either no valid pet defined or pet is in a different pet shop."
+    # E.g., user tries to use a pet not in the pet_shop hash (e.g., @new_pet)
   elsif customer_can_afford_pet(customer, pet) == false
     "Customer cannot afford pet."
   else
     add_pet_to_customer(customer, pet)
-    remove_pet_by_name(pet_shop, pet[:name]) # Not used in test, but if pet is sold it should no longer be in the shop
+    remove_pet_by_name(pet_shop, pet[:name])
+    # Not used in test, but if pet is sold it should no longer be in the shop
     remove_customer_cash(customer, pet[:price])
     add_or_remove_cash(pet_shop, pet[:price])
     increase_pets_sold(pet_shop, 1)
   end
 end
+
+##############
+
+# REFACTORED
+
+# def sell_pet_to_customer(pet_shop, pet, customer)
+#   return "No pet found. Please define a valid pet." if pet == nil
+#     # E.g., user tries to find_pet_by_name and it returns nil, then tries to run sell_pet_to_customer
+#   return  "Pet is not found in this pet shop. Either no valid pet defined or pet is in a different pet shop." if find_pet_by_name(pet_shop, pet[:name]) == nil
+#     # E.g., user tries to use a pet not in the pet_shop hash (e.g., @new_pet)
+#   return "Customer cannot afford pet." if !customer_can_afford_pet(customer, pet)
+#   add_pet_to_customer(customer, pet)
+#   remove_pet_by_name(pet_shop, pet[:name])
+#     # Not used in test, but if pet is sold it should no longer be in the shop
+#   remove_customer_cash(customer, pet[:price])
+#   add_or_remove_cash(pet_shop, pet[:price])
+#   increase_pets_sold(pet_shop, 1)
+# end
+
+###############
